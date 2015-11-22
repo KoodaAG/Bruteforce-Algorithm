@@ -21,7 +21,7 @@ void changeEndLetter(std::string&);
 int main()
 {
 	std::string password;
-	std::cout << "Enter password to crack:";
+	std::cout << "Enter password to crack:  ";
 	std::cin >> password;
 
 	system("cls");
@@ -96,13 +96,12 @@ void changeFromZToEnd(std::string& brutepw, short zPosition)
 	{
 		// If the last letter is Z add one letter to the string
 		// and change all letters in it to A
+		for (int i = 0; i < brutepw.length(); ++i)
+			brutepw.at(i) = 'A';
 		
 		append(brutepw);
 
-		for (short i = 0; i < brutepw.length(); ++i)
-		{
-			brutepw.at(zPosition) = 'A';
-		}
+		
 	}
 	else if (zPosition > 0)
 	{
