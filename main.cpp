@@ -23,12 +23,16 @@ int main()
 	std::string password;
 	std::cout << "Enter password to crack:  ";
 	std::cin >> password;
+
 	std::cin.ignore();
 	std::cin.sync();
 	std::cin.clear();
+
 	system("cls");
 	std::cout << "Attempt to crack...." << std::endl;
+
 	crack(password);
+
 	getchar();
 }
 
@@ -37,8 +41,10 @@ void changeEndLetter(std::string& brutepw)
 	short position;
 	for (short i = 0; i < 52; ++i)
 	{
+		// Get the character whích is at the string end
 		if (brutepw.at(brutepw.length() - 1) == Alphabet.at(i) && Alphabet.at(i) != 'z')
 		{
+			// Increase the letter by one
 			position = i + 1;
 			brutepw.at(brutepw.length() - 1) = Alphabet.at(position);
 			break;
@@ -49,11 +55,14 @@ void changeEndLetter(std::string& brutepw)
 void crack(const std::string& password)
 {
 	std::string brutePw = "A";
+
 	while (!passwordCracked(password, brutePw))
 	{
 		changeFromZToEnd(brutePw, lastZposition(brutePw));
 		changeEndLetter(brutePw);
+		//std::cout << brutePw << std::endl;  Don't print for better performance
 	}
+
 	std::cout << "Password Found -> " << brutePw << std::endl;
 }
 
@@ -64,13 +73,21 @@ void append(std::string& brutepw)
 
 short lastZposition(const std::string& brutepw)
 {
+	// Find the position of the last z letter
+	// If the letter is at position 0 the string is z...!
+	// Else if the letter is greater than 0 the string
+	// Doesn't contain only z characters
 	short position = -1;
 	for (short i = brutepw.length() - 1; i >= 0; --i)
 	{
 		if (brutepw.at(i) == 'z')
+		{
 			position = i;
-		else 
+		}
+		else
+		{
 			break;
+		}
 	}
 	return position;
 }
@@ -79,12 +96,18 @@ void changeFromZToEnd(std::string& brutepw, short zPosition)
 {
 	if (zPosition == 0)
 	{
+		// If the last letter is Z add one letter to the string
+		// and change all letters in it to A
 		for (int i = 0; i < brutepw.length(); ++i)
 			brutepw.at(i) = 'A';
+
 		append(brutepw);
+
+
 	}
 	else if (zPosition > 0)
 	{
+		// Get the postition of that character in the Alphabet Array
 		short alphabetPos;
 		for (short i = 0; i < 52; ++i)
 		{
@@ -94,9 +117,15 @@ void changeFromZToEnd(std::string& brutepw, short zPosition)
 				break;
 			}
 		}
+		// Increase the letter before z by 1 and asign the letter to it
 		brutepw.at(zPosition - 1) = Alphabet.at(alphabetPos);
+
+		// Change all letters after zPosition to A
 		for (short i = zPosition; i < brutepw.length(); ++i)
+		{
 			brutepw.at(zPosition) = Alphabet.at(0);
+		}
+
 	}
 }
 
